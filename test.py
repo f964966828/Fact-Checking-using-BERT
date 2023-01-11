@@ -11,14 +11,8 @@ import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
 
 from utils import get_dataloader, BertForFactChecking
+from transformers import logging
 
-class_num = 3
-article_num = 5
-batch_size = 8
-sequence_length = 200
-
-num_epoch = 3
-show_freq = 10
 DEVICE = 'cuda'
 
 with open('./2022-inlp-final/test.json') as f:
@@ -32,7 +26,9 @@ logging.set_verbosity_error()
 model = BertForFactChecking()
 model = model.to(DEVICE)
 model.load_state_dict(torch.load('bert_weight.pth'))
-         
+
+test_loader = get_dataloader(test_data, test_data_evidence, shuffle=False, mode="test")
+
 test_pred = list()
 for (input_ids, input_mask, segment_ids) in tqdm(test_loader):
     input_ids = input_ids.to(DEVICE)

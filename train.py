@@ -11,11 +11,7 @@ import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
 
 from utils import get_dataloader, BertForFactChecking
-
-class_num = 3
-article_num = 5
-batch_size = 8
-sequence_length = 200
+from transformers import logging
 
 num_epoch = 3
 show_freq = 10
@@ -35,15 +31,16 @@ with open('./2022-inlp-final/aug_evidence.json') as f:
 print(f"Training Dataset Size: {len(train_data) + len(aug_data_evidence)}")
 print(f"Validation Dataset Size: {len(valid_data)}")
 
-train_loader = get_dataloader(train_data, train_data_evidence, mode="train")
-valid_loader = get_dataloader(valid_data, valid_data_evidence, mode="valid")
-
 logging.set_verbosity_error()
 model = BertForFactChecking()
 model = model.to(DEVICE)
+model.load_state_dict(torch.load('bert_weight.pth'))
 
 loss = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-5)
+
+train_loader = get_dataloader(train_data, train_data_evidence, mode="train")
+valid_loader = get_dataloader(valid_data, valid_data_evidence, mode="valid")
 
 best_valid_f1_score = 0.0
 for epoch in range(num_epoch):

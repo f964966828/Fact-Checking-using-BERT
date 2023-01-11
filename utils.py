@@ -15,10 +15,6 @@ article_num = 5
 batch_size = 8
 sequence_length = 200
 
-num_epoch = 3
-show_freq = 10
-DEVICE = 'cuda'
-
 def text_preprocessing(string):
     string = string.replace('-', '')
     string = string.replace('_', '')
