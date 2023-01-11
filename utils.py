@@ -11,9 +11,9 @@ from torch.utils.data import TensorDataset, DataLoader
 from transformers import BertTokenizer, BertModel
 
 class_num = 3
-article_num = 5
-batch_size = 8
-sequence_length = 200
+article_num = 12
+batch_size = 1
+sequence_length = 512
 
 def text_preprocessing(string):
     string = string.replace('-', '')

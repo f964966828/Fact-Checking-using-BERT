@@ -34,7 +34,6 @@ print(f"Validation Dataset Size: {len(valid_data)}")
 logging.set_verbosity_error()
 model = BertForFactChecking()
 model = model.to(DEVICE)
-model.load_state_dict(torch.load('bert_weight.pth'))
 
 loss = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-5)
